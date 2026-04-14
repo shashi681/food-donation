@@ -1,6 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
 const connectDB = require('./config/db');
 
 dotenv.config();
@@ -10,6 +12,13 @@ const path = require('path');
 
 const app = express();
 app.use(cors());
+
+// Security and Logging Middleware for Production
+app.use(helmet({
+    contentSecurityPolicy: false, // Disabling CSP to avoid breaking inline frontend scripts/styles without a strict policy
+}));
+app.use(morgan('dev')); // Logs requests to the console
+
 app.use(express.json());
 
 // Serve static frontend files
