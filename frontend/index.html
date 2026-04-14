@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustain - Professional Food Donation</title>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="background-effects">
+        <div class="glow blob-1"></div>
+        <div class="glow blob-2"></div>
+    </div>
+
+    <!-- Navbar -->
+    <header>
+        <div class="logo"><i class="ph-fill ph-plant"></i>Sustain</div>
+        <div class="nav-links">
+            <span id="nav-user-info" style="display: none; margin-right: 20px; font-weight: 500;"></span>
+            <button id="logout-btn" class="btn btn-outline" style="display: none;">
+                <i class="ph ph-sign-out"></i> Logout
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Auth Section -->
+        <section id="auth-section" class="view active">
+            <div class="auth-container glass">
+                <div class="auth-icon-wrapper">
+                    <i class="ph-duotone ph-user-circle"></i>
+                </div>
+                <h1 id="auth-title">Welcome Back</h1>
+                <p class="subtitle" id="auth-subtitle">Login to continue sharing.</p>
+                
+                <form id="auth-form">
+                    <div id="name-group" class="form-group" style="display: none;">
+                        <label for="name">Full Name</label>
+                        <div class="input-wrapper">
+                            <i class="ph ph-user"></i>
+                            <input type="text" id="name" placeholder="E.g., John Doe" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <div class="input-wrapper">
+                            <i class="ph ph-envelope-simple"></i>
+                            <input type="email" id="email" required placeholder="name@example.com" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-wrapper">
+                            <i class="ph ph-lock-key"></i>
+                            <input type="password" id="password" required placeholder="••••••••" />
+                        </div>
+                    </div>
+                    <div id="role-group" class="form-group" style="display: none;">
+                        <label for="role">Account Type</label>
+                        <div class="input-wrapper">
+                            <i class="ph ph-identification-card"></i>
+                            <select id="role">
+                                <option value="restaurant">Restaurant / Donor</option>
+                                <option value="ngo">NGO / Receiver</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary full-width" id="auth-submit">
+                        Login <i class="ph ph-arrow-right" style="margin-left: 8px;"></i>
+                    </button>
+                </form>
+                
+                <p class="toggle-auth">
+                    <span id="auth-switch-text">Don't have an account?</span> 
+                    <a href="#" id="toggle-auth-mode">Sign up here</a>
+                </p>
+                <div id="auth-message" class="message"></div>
+            </div>
+        </section>
+
+        <!-- Restaurant Dashboard -->
+        <section id="restaurant-dashboard" class="view">
+            <div class="dashboard-header">
+                <h2>Restaurant Dashboard</h2>
+                <p class="subtitle">Manage your donations and incoming requests.</p>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Add Food -->
+                <div class="panel glass">
+                    <h3><i class="ph-duotone ph-package"></i> Post New Donation</h3>
+                    <form id="add-food-form">
+                        <div class="form-group">
+                            <label>Food Item Description</label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-hamburger"></i>
+                                <input type="text" id="food-name" required placeholder="E.g., 50 boxes of Lasagna" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Quantity</label>
+                                <div class="input-wrapper">
+                                    <i class="ph ph-hash"></i>
+                                    <input type="number" id="food-qty" required min="1" placeholder="Amount" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Expiry Date & Time</label>
+                                <div class="input-wrapper">
+                                    <i class="ph ph-clock"></i>
+                                    <input type="datetime-local" id="food-expiry" required />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Pickup Location</label>
+                            <div class="input-wrapper">
+                                <i class="ph ph-map-pin"></i>
+                                <input type="text" id="food-location" required placeholder="E.g., 123 Main St, Back Alley" />
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary full-width">
+                            Publish Donation <i class="ph ph-paper-plane-right" style="margin-left: 8px;"></i>
+                        </button>
+                    </form>
+                    <div id="food-msg" class="message"></div>
+                </div>
+
+                <div class="panel-column">
+                    <!-- My Foods -->
+                    <div class="panel glass">
+                        <h3><i class="ph-duotone ph-list-dashes"></i> Active Donations</h3>
+                        <ul class="item-list scrollable" id="my-foods-list">
+                            <!-- Populated via JS -->
+                        </ul>
+                    </div>
+
+                    <!-- Incoming Requests -->
+                    <div class="panel glass">
+                        <h3><i class="ph-duotone ph-bell-ringing"></i> Incoming Requests</h3>
+                        <ul class="item-list scrollable" id="incoming-requests-list">
+                            <!-- Populated via JS -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NGO Dashboard -->
+        <section id="ngo-dashboard" class="view">
+            <div class="dashboard-header">
+                <h2>NGO Dashboard</h2>
+                <p class="subtitle">Discover available food and track your requests.</p>
+            </div>
+
+            <div class="dashboard-grid override-grid">
+                 <!-- Available Foods -->
+                <div class="panel glass wide-panel">
+                    <h3><i class="ph-duotone ph-map-trifold"></i> Available Food Donations</h3>
+                    <ul class="item-list grid-list" id="available-foods-list">
+                        <!-- Populated via JS -->
+                    </ul>
+                </div>
+
+                <!-- My Requests -->
+                <div class="panel glass side-panel">
+                    <h3><i class="ph-duotone ph-clipboard-text"></i> My Requests</h3>
+                    <ul class="item-list scrollable" id="my-requests-list">
+                        <!-- Populated via JS -->
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
